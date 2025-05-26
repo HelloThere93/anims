@@ -1,0 +1,43 @@
+import pgzrun
+from random import randint
+
+WIDTH = 800
+HEIGHT = 450
+
+score = 1
+basket = Actor("basket.png")
+apple = Actor("appleimg.png")
+
+basket.pos = (WIDTH // 2, HEIGHT - 30)
+apple.pos = (randint(0, WIDTH), 0)
+
+speedy = 3
+
+def draw():
+    screen.clear()
+    screen.blit("bg.jpg", (0, 0))
+    apple.draw()
+    basket.draw()
+    screen.draw.text("Apples Collected"+str(score), (20,20), color = "black")
+
+def update():
+    global speedy, score
+    if score  > 3:
+        speedy = score/3
+    else:
+        speedy = 1
+    apple.y += speedy
+
+    if apple.colliderect(basket):
+        apple.pos = (randint(0, WIDTH), 0)
+        score += 1
+    if apple.y > HEIGHT:
+        apple.pos = (randint(0, WIDTH), 0)
+        exit()
+
+    if keyboard.right and basket.right < WIDTH:
+        basket.x += 4
+    if keyboard.left and basket.left > 0:
+        basket.x -= 4
+   
+pgzrun.go()
